@@ -1,0 +1,16 @@
+services:
+  bulk:
+    build: .
+    image: hospital-bulk:latest
+    container_name: hospital-bulk
+    ports:
+      - "8000:8000"
+    environment:
+      # Downstream Hospital Directory API.
+      BASE_URL: ${BASE_URL:-https://hospital-directory.onrender.com}
+      # Partial-failure Strategy: rollback (default) | leave | partial.
+      FAILURE_POLICY: ${FAILURE_POLICY:-rollback}
+      # Bounded concurrency for downstream create calls.
+      MAX_CONCURRENCY: ${MAX_CONCURRENCY:-10}
+      # Per-request timeout (seconds) to the downstream API.
+      REQUEST_TIMEOUT: ${REQUEST_TIMEOUT:-30}
